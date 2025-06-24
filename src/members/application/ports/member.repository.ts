@@ -5,6 +5,7 @@ export interface MemberRepository {
   findAll(): Promise<Member[]>;
   findById(id: string): Promise<Member | null>;
   findAllByClientId(clientId: string): Promise<Member[]>;
+  findByMeterSerial(meterSerial: string): Promise<Member | null>;
   update(id: string, member: Partial<Member>): Promise<Member>;
   delete(id: string): Promise<void>;
 } 

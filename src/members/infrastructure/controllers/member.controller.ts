@@ -9,6 +9,7 @@ import { CreateMemberDto } from '../../application/dtos/create-member.dto';
 import { UpdateMemberDto } from '../../application/dtos/update-member.dto';
 import { MemberNotFoundException } from '../../domain/exceptions/member-not-found.exception';
 import { InvalidMemberDataException } from '../../domain/exceptions/invalid-member-data.exception';
+import { DuplicateMeterSerialException } from '../../domain/exceptions/duplicate-meter-serial.exception';
 
 @Controller('members')
 export class MemberController {
@@ -33,6 +34,9 @@ export class MemberController {
     } catch (error) {
       if (error instanceof InvalidMemberDataException) {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+      if (error instanceof DuplicateMeterSerialException) {
+        throw new HttpException(error.message, HttpStatus.CONFLICT);
       }
       throw new HttpException('Error al crear miembro', HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -98,6 +102,9 @@ export class MemberController {
       }
       if (error instanceof InvalidMemberDataException) {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+      if (error instanceof DuplicateMeterSerialException) {
+        throw new HttpException(error.message, HttpStatus.CONFLICT);
       }
       throw new HttpException('Error al actualizar miembro', HttpStatus.INTERNAL_SERVER_ERROR);
     }

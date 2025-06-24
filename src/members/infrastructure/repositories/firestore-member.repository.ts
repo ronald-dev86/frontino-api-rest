@@ -60,6 +60,26 @@ export class FirestoreMemberRepository implements MemberRepository, OnModuleInit
     }
   }
 
+  async findByMeterSerial(meterSerial: string): Promise<Member | null> {
+    try {
+      const snapshot = await this.firestore
+        .collection(this.COLLECTION_NAME)
+        .where('meterSerial', '==', meterSerial)
+        .limit(1)
+        .get();
+      
+      if (snapshot.empty) {
+        return null;
+      }
+
+      const doc = snapshot.docs[0];
+      return FirestoreMemberAdapter.toMember(doc.id, doc.data());
+    } catch (error) {
+      console.error(`Error al buscar miembro por número de serie ${meterSerial}:`, error);
+      throw error;
+    }
+  }
+
   async findAllByClientId(clientId: string): Promise<Member[]> {
     try {
       const snapshot = await this.firestore

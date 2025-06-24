@@ -21,6 +21,13 @@ export class InMemoryMemberRepository implements MemberRepository {
     return member || null;
   }
 
+  async findByMeterSerial(meterSerial: string): Promise<Member | null> {
+    const member = Array.from(this.members.values()).find(
+      member => member.meterSerial === meterSerial
+    );
+    return member || null;
+  }
+
   async findAllByClientId(clientId: string): Promise<Member[]> {
     return Array.from(this.members.values()).filter(
       member => member.idClient === clientId
