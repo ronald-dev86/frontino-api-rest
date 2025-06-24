@@ -1,5 +1,4 @@
 import { Member } from '../../domain/entities/member.entity';
-import { Email } from '../../domain/value-objects/email.value-object';
 import { FirebaseDateAdapter } from '../../../shared/infrastructure/adapters/firebase-date.adapter';
 
 export class FirestoreMemberAdapter {
@@ -7,8 +6,8 @@ export class FirestoreMemberAdapter {
    * Convierte datos de Firestore a una entidad Member
    */
   public static toMember(id: string, data: any): Member {
-    // Crear el objeto Email
-    const email = new Email(data.email);
+    // Obtener el email como string
+    const email = FirebaseDateAdapter.toEmailString(data.email);
 
     // Usar el adaptador para convertir las fechas de Firebase a DateTimeString
     const createdAt = FirebaseDateAdapter.toDateTimeString(data.createdAt);
@@ -37,7 +36,7 @@ export class FirestoreMemberAdapter {
       idClient: member.idClient,
       name: member.name,
       lastname: member.lastname,
-      email: member.email.value,
+      email: member.email,
       phone: member.phone,
       address: member.address,
       meterSerial: member.meterSerial,

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Member } from '../../domain/entities/member.entity';
-import { Email } from '../../domain/value-objects/email.value-object';
 import { InvalidMemberDataException } from '../../domain/exceptions/invalid-member-data.exception';
 import { CreateMemberDto } from '../dtos/create-member.dto';
 import { MemberRepository } from '../ports/member.repository';
@@ -21,7 +20,7 @@ export class CreateMemberUseCase {
         createMemberDto.idClient,
         createMemberDto.name,
         createMemberDto.lastname,
-        new Email(createMemberDto.email),
+        createMemberDto.email,
         createMemberDto.phone,
         createMemberDto.address,
         createMemberDto.meterSerial,

@@ -92,7 +92,7 @@ export class FirestoreMemberRepository implements MemberRepository, OnModuleInit
       // Mapear solo los campos que se proporcionaron
       if (memberData.name !== undefined) dataToUpdate.name = memberData.name;
       if (memberData.lastname !== undefined) dataToUpdate.lastname = memberData.lastname;
-      if (memberData.email !== undefined) dataToUpdate.email = memberData.email.value;
+      if (memberData.email !== undefined) dataToUpdate.email = memberData.email;
       if (memberData.phone !== undefined) dataToUpdate.phone = memberData.phone;
       if (memberData.address !== undefined) dataToUpdate.address = memberData.address;
       if (memberData.meterSerial !== undefined) dataToUpdate.meterSerial = memberData.meterSerial;

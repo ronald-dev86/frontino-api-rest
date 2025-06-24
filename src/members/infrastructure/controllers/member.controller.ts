@@ -42,6 +42,7 @@ export class MemberController {
   async findAll() {
     try {
       const members = await this.getAllMembersUseCase.execute();
+      console.log(members);
       return {
         status: HttpStatus.OK,
         message: 'Miembros recuperados correctamente',

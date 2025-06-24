@@ -4,7 +4,6 @@ import { MemberRepository } from '../ports/member.repository';
 import { UpdateMemberDto } from '../dtos/update-member.dto';
 import { MemberNotFoundException } from '../../domain/exceptions/member-not-found.exception';
 import { InvalidMemberDataException } from '../../domain/exceptions/invalid-member-data.exception';
-import { Email } from '../../domain/value-objects/email.value-object';
 
 @Injectable()
 export class UpdateMemberUseCase {
@@ -32,7 +31,7 @@ export class UpdateMemberUseCase {
       }
 
       if (updateMemberDto.email !== undefined) {
-        dataToUpdate['email'] = new Email(updateMemberDto.email);
+        dataToUpdate['email'] = updateMemberDto.email;
       }
 
       if (updateMemberDto.phone !== undefined) {
