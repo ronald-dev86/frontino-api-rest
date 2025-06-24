@@ -46,7 +46,6 @@ export class Member {
   }
 
   set email(email: Email) {
-    console.log(email);
     this._email = email;
     this._updatedAt = new Date().toISOString();
   }
