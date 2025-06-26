@@ -9,9 +9,12 @@ import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-ca
 import { UpdateUserUseCase } from './application/use-cases/update-user.use-case';
 import { DeleteUserUseCase } from './application/use-cases/delete-user.use-case';
 import { FindByEmailUserUseCase } from './application/use-cases/find-by-email-user.use-case';
+import { PasswordHashAdapter } from './infrastructure/adapters/password-hash.adapter';
+import { PasswordHash } from './application/ports/password-hash.port';
 
 // Token para la inyección de dependencias
 export const USER_REPOSITORY = 'UserRepository';
+export const PASSWORD_HASH = 'PasswordHash';
 
 @Module({
   imports: [
@@ -19,6 +22,11 @@ export const USER_REPOSITORY = 'UserRepository';
   ],
   controllers: [UserController],
   providers: [
+    // Adaptadores como implementación de puertos
+    {
+      provide: PASSWORD_HASH,
+      useClass: PasswordHashAdapter,
+    },
     // Repositorio
     {
       provide: USER_REPOSITORY,
@@ -27,8 +35,8 @@ export const USER_REPOSITORY = 'UserRepository';
     // Casos de uso
     {
       provide: CreateUserUseCase,
-      useFactory: (userRepo) => new CreateUserUseCase(userRepo),
-      inject: [USER_REPOSITORY],
+      useFactory: (userRepo, passwordHash) => new CreateUserUseCase(userRepo, passwordHash),
+      inject: [USER_REPOSITORY, PASSWORD_HASH],
     },
     {
       provide: GetUserByIdUseCase,
@@ -42,8 +50,8 @@ export const USER_REPOSITORY = 'UserRepository';
     },
     {
       provide: UpdateUserUseCase,
-      useFactory: (userRepo) => new UpdateUserUseCase(userRepo),
-      inject: [USER_REPOSITORY],
+      useFactory: (userRepo, passwordHash) => new UpdateUserUseCase(userRepo, passwordHash),
+      inject: [USER_REPOSITORY, PASSWORD_HASH],
     },
     {
       provide: DeleteUserUseCase,

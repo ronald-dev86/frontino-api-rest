@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/entities/user.entity';
 import { UserRepository } from '../ports/user.repository';
+import { PasswordHash } from '../ports/password-hash.port';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { UserNotFoundException } from '../../domain/exceptions/user-not-found.exception';
 import { InvalidUserDataException } from '../../domain/exceptions/invalid-user-data.exception';
 import { EmailAlreadyExistsException } from '../../domain/exceptions/email-already-exists.exception';
+import { PASSWORD_HASH, USER_REPOSITORY } from '../../users.module';
 
 @Injectable()
 export class UpdateUserUseCase {
   constructor(
-    private readonly userRepository: UserRepository
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    @Inject(PASSWORD_HASH)
+    private readonly passwordHash: PasswordHash
   ) {}
 
   async execute(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -35,10 +40,16 @@ export class UpdateUserUseCase {
         }
       }
 
+      // Si se está actualizando la contraseña, hashearla
+      let hashedPassword;
+      if (updateUserDto.password) {
+        hashedPassword = await this.passwordHash.hash(updateUserDto.password);
+      }
+
       return this.userRepository.update(id, {
         idAssociatedAccounts: updateUserDto.idAssociatedAccounts,
         email: updateUserDto.email,
-        password: updateUserDto.password,
+        password: hashedPassword,
         rol: updateUserDto.rol,
         active: updateUserDto.active,
       });

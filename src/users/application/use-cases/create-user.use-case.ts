@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/entities/user.entity';
 import { UserRepository } from '../ports/user.repository';
+import { PasswordHash } from '../ports/password-hash.port';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { InvalidUserDataException } from '../../domain/exceptions/invalid-user-data.exception';
 import { EmailAlreadyExistsException } from '../../domain/exceptions/email-already-exists.exception';
 import { v4 as uuidv4 } from 'uuid';
+import { PASSWORD_HASH, USER_REPOSITORY } from '../../users.module';
 
 @Injectable()
 export class CreateUserUseCase {
   constructor(
-    private userRepository: UserRepository
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
+    @Inject(PASSWORD_HASH)
+    private readonly passwordHash: PasswordHash
   ) {}
 
   async execute(createUserDto: CreateUserDto): Promise<User> {
@@ -36,11 +41,14 @@ export class CreateUserUseCase {
       // Convertir los IDs de cuentas asociadas a tipo UniqueId
       const associatedAccounts = idAssociatedAccounts.map(accountId => accountId);
 
+      // Hashear la contraseña antes de crear el usuario
+      const hashedPassword = await this.passwordHash.hash(password);
+
       const user = User.create(
         id,
         associatedAccounts,
         email,
-        password,
+        hashedPassword,
         rol,
         active,
         now,
