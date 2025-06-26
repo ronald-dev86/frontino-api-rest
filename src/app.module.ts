@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GasCylinderRefillModule } from './gas-cylinder-refill/gas-cylinder-refill.module';
 import { MembersModule } from './members/members.module';
 import { GasBillModule } from './gas-bill/gas-bill.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { GasBillModule } from './gas-bill/gas-bill.module';
     ClientsModule,
     GasCylinderRefillModule,
     MembersModule,
-    GasBillModule
+    GasBillModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
