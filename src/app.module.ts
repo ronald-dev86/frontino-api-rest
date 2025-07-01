@@ -7,6 +7,7 @@ import { GasCylinderRefillModule } from './gas-cylinder-refill/gas-cylinder-refi
 import { MembersModule } from './members/members.module';
 import { GasBillModule } from './gas-bill/gas-bill.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { UsersModule } from './users/users.module';
     GasCylinderRefillModule,
     MembersModule,
     GasBillModule,
-    UsersModule
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

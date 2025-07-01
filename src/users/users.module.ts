@@ -64,6 +64,6 @@ export const PASSWORD_HASH = 'PasswordHash';
       inject: [USER_REPOSITORY],
     },
   ],
-  exports: [USER_REPOSITORY],
+  exports: [USER_REPOSITORY, PASSWORD_HASH],
 })
 export class UsersModule {} 
