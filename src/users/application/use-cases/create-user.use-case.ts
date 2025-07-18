@@ -44,7 +44,7 @@ export class CreateUserUseCase {
       // Hashear la contraseña antes de crear el usuario
       const hashedPassword = await this.passwordHash.hash(password);
 
-      const user = User.create(
+      const user = new User(
         id,
         associatedAccounts,
         email,

@@ -13,28 +13,6 @@ export class User {
     private _updatedAt: DateTimeString,
   ) {}
 
-  static create(
-    id: UniqueId,
-    idAssociatedAccounts: UniqueId[],
-    email: string,
-    password: string,
-    rol: Roles,
-    active: boolean,
-    createdAt: DateTimeString,
-    updatedAt: DateTimeString,
-  ): User {
-    return new User(
-      id,
-      idAssociatedAccounts,
-      email,
-      password,
-      rol,
-      active,
-      createdAt,
-      updatedAt,
-    );
-  }
-
   get id(): UniqueId {
     return this._id;
   }

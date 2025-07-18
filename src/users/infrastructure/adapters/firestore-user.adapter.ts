@@ -17,7 +17,7 @@ export class FirestoreUserAdapter {
   }
 
   static fromFirestore(data: FirebaseFirestore.DocumentData): User {
-    return User.create(
+    return new User(
       data.id,
       data.idAssociatedAccounts || [],
       data.email,

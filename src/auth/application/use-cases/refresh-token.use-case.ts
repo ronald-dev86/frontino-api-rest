@@ -4,7 +4,7 @@ import { AuthRepository } from '../ports/auth.repository';
 import { AUTH_REPOSITORY } from '../../auth.module';
 import { RefreshTokenDto } from '../dtos/refresh-token.dto';
 import { TokenNotFoundException } from '../../domain/exceptions/token-not-found.exception';
-import { JwtService } from '../ports/jwt.port';
+import { JwtService } from '../../../shared/application/ports/jwt.port';
 import { JWT_SERVICE } from '../../auth.module';
 
 @Injectable()

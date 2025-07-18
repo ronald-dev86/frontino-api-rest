@@ -10,6 +10,13 @@ async function bootstrap() {
   
   const app = await NestFactory.create(AppModule);
   
+  // Habilitar CORS para permitir solicitudes desde el frontend
+  app.enableCors({
+    origin: true, // Permite cualquier origen (cambiar para producción)
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
+    credentials: true, // Permite el envío de cookies y cabeceras de autorización
+  });
+
   // Agregar prefijo global 'api/v1' a todos los endpoints
   app.setGlobalPrefix('api/v1');
 

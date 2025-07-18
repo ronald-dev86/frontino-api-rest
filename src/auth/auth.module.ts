@@ -14,8 +14,8 @@ import { LoginUseCase } from './application/use-cases/login.use-case';
 import { LogoutUseCase } from './application/use-cases/logout.use-case';
 import { RefreshTokenUseCase } from './application/use-cases/refresh-token.use-case';
 import { ResetPasswordUseCase } from './application/use-cases/reset-password.use-case';
-import { JwtAdapter } from './infrastructure/adapters/jwt.adapter';
-import { JwtService } from './application/ports/jwt.port';
+import { JwtAdapter } from '../shared/infrastructure/adapters/jwt.adapter';
+import { JwtService } from '../shared/application/ports/jwt.port';
 import { AuthResponseAdapter } from './infrastructure/adapters/auth-response.adapter';
 
 // Token para la inyección de dependencias

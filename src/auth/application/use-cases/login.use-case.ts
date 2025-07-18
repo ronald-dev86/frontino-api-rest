@@ -9,7 +9,7 @@ import { USER_REPOSITORY } from '../../../users/users.module';
 import { UserRepository } from '../../../users/application/ports/user.repository';
 import { PasswordHash } from '../../../users/application/ports/password-hash.port';
 import { PASSWORD_HASH } from '../../../users/users.module';
-import { JwtService } from '../ports/jwt.port';
+import { JwtService } from '../../../shared/application/ports/jwt.port';
 import { JWT_SERVICE } from '../../auth.module';
 
 @Injectable()
