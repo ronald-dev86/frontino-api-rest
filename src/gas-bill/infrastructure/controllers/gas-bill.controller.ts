@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpException, Query } from '@nestjs/common';
 import { SaveGasBillUseCase } from '../../application/use-cases/save-gas-bill.use-case';
 import { GetGasBillByIdUseCase } from '../../application/use-cases/get-gas-bill-by-id.use-case';
 import { GetAllGasBillsUseCase } from '../../application/use-cases/get-all-gas-bills.use-case';
@@ -6,6 +6,8 @@ import { UpdateGasBillUseCase } from '../../application/use-cases/update-gas-bil
 import { DeleteGasBillUseCase } from '../../application/use-cases/delete-gas-bill.use-case';
 import { FindByTimeAndMemberUseCase } from '../../application/use-cases/find-by-time-and-member.use-case';
 import { FindInIdsMembersUseCase } from '../../application/use-cases/find-in-ids-members.use-case';
+import { GroupGasBillsByTimeUseCase } from '../../application/use-cases/group-gas-bills-by-time.use-case';
+import { GroupedGasBillsDto } from '../../application/dtos/grouped-gas-bills.dto';
 import { CreateGasBillDto } from '../../application/dtos/create-gas-bill.dto';
 import { UpdateGasBillDto } from '../../application/dtos/update-gas-bill.dto';
 import { GasBillNotFoundException } from '../../domain/exceptions/gas-bill-not-found.exception';
@@ -22,6 +24,7 @@ export class GasBillController extends BaseController {
     private readonly deleteGasBillUseCase: DeleteGasBillUseCase,
     private readonly findByTimeAndMemberUseCase: FindByTimeAndMemberUseCase,
     private readonly findInIdsMembersUseCase: FindInIdsMembersUseCase,
+    private readonly groupGasBillsByTimeUseCase: GroupGasBillsByTimeUseCase,
   ) {
     super();
   }
@@ -85,6 +88,19 @@ export class GasBillController extends BaseController {
       return this.responseSuccess(gasBills, 'Facturas de gas recuperadas correctamente por IDs de miembros');
     } catch (error) {
       throw new HttpException('Error al obtener facturas de gas por IDs de miembros', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get(':id/grouped-by-time')
+  async getGroupedByTime(@Param('id') id: string) {
+    try {
+      const groupedBills = await this.groupGasBillsByTimeUseCase.execute(id);
+      return this.responseSuccess<GroupedGasBillsDto[]>(
+        groupedBills,
+        'Facturas de gas agrupadas por tiempo recuperadas correctamente',
+      );
+    } catch (error: any) {
+      throw new HttpException('Error al obtener facturas de gas agrupadas por tiempo', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

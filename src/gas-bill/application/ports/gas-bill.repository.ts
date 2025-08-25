@@ -1,5 +1,6 @@
 import { GasBill } from '../../domain/entities/gas-bill.entity';
 
+
 export interface GasBillRepository {
   save(gasBill: GasBill): Promise<GasBill>;
   findById(id: string): Promise<GasBill | null>;
